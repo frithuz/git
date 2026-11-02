@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+.PHONY: clean build build-arch build-indep binary binary-arch binary-indep
+clean:
+	bash debian/recipe/scripts/build/rebuild.sh clean
+build build-arch:
+	bash debian/recipe/scripts/build/rebuild.sh build
+binary binary-arch:
+	bash debian/recipe/scripts/build/rebuild.sh binary
+build-indep binary-indep:

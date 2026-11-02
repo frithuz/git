@@ -1,0 +1,31 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Git
+Source: https://www.kernel.org/pub/software/scm/git/
+Comment: Complete upstream notices, embedded-library licenses, verified source
+ references, and the build recipe are installed in build-info/ next to this file.
+
+Files: *
+Copyright: Git contributors; see the individual source files and upstream notices
+License: GPL-2
+ See /usr/share/common-licenses/GPL-2, source COPYING and LGPL-2.1,
+ and the binary package's build-info/ directory for upstream license texts.
+
+Files: zlib-ng/*
+Copyright: zlib and zlib-ng contributors; see zlib-ng/LICENSE.md
+License: Zlib
+ See source zlib-ng/LICENSE.md or build-info/zlib-ng/LICENSE.md in the binary
+ package for the complete license and copyright notices.
+
+Files: debian/upstream/rust/*
+Copyright: Rust project and third-party contributors; see the source notices
+License: Rust-library-notices
+ Rust's library and its third-party components retain their individual licenses.
+ See debian/upstream/rust/COPYRIGHT-library.html and debian/upstream/rust/licenses/ in
+ the source package, or build-info/rust/ in the binary package, for the complete
+ upstream copyright notices and license texts.
+
+Files: debian/rules debian/control debian/README.source debian/source/* debian/recipe/*
+Copyright: Jonathan Garbee and contributors
+License: CC0-1.0
+ See debian/recipe/LICENSE in the source package, or build-info/build/LICENSE
+ in the binary package, for the complete CC0-1.0 dedication.

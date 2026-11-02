@@ -1,0 +1,21 @@
+Source: git
+Section: vcs
+Priority: optional
+Maintainer: Jonathan Garbee <jonathan@garbee.me>
+Build-Depends: gcc, make, libc6-dev, dpkg-dev, binutils, perl, python3,
+ libcurl4-openssl-dev, libpcre2-dev, libssl-dev,
+ rustc, cargo
+Rules-Requires-Root: no
+Homepage: https://git-scm.com/
+
+Package: git
+Architecture: any
+Multi-Arch: foreign
+Depends: ${shlibs:Depends}, ca-certificates
+Recommends: openssh-client, less
+Description: Git client with zlib-ng and hardened Trixie builds
+ Git provides distributed revision control. This focused client build includes
+ PCRE2, HTTPS, OpenSSL hashing, and git subtree, with static zlib-ng compression.
+ .
+ Server commands, Perl/Python integrations, GUI tools, translations, manual
+ pages, and shell completion are not included.

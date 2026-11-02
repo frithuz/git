@@ -1,0 +1,40 @@
+version: '3'
+
+tasks:
+  build:
+    desc: Build and verify both architectures; export Debian packages, OCI image, and source
+    cmds:
+      - docker buildx bake {{.CLI_ARGS}}
+
+  build:native:
+    desc: Build all outputs for this machine's architecture
+    vars:
+      ARCH:
+        sh: 'case "$(uname -m)" in arm64|aarch64) echo arm64 ;; x86_64) echo amd64 ;; *) exit 1 ;; esac'
+    cmds:
+      - docker buildx bake --set '*.platform=linux/{{.ARCH}}' {{.CLI_ARGS}}
+
+  test:
+    desc: Verify package upgrade/removal, scratch artifact, and signed APT installation
+    cmds:
+      - docker buildx bake test repository-test {{.CLI_ARGS}}
+
+  apt:
+    desc: Generate dist/apt with both architectures using APT_GNUPGHOME and APT_SIGNING_KEY
+    cmds:
+      - bash scripts/apt/local.sh
+
+  test:apt:
+    desc: Test one signed repository containing both real package builds with a temporary key
+    cmds:
+      - bash scripts/apt/test.sh
+
+  test:source:
+    desc: Rebuild the Debian source package with networking disabled
+    cmds:
+      - docker buildx bake source-test {{.CLI_ARGS}}
+
+  check:
+    desc: Check shell scripts, Dockerfile, workflows, release metadata, and Bake configuration
+    cmds:
+      - bash scripts/check.sh

@@ -1,0 +1,35 @@
+name: Lint
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check shell scripts and release metadata
+        run: |
+          while IFS= read -r -d '' file; do bash -n "$file"; done < <(find scripts test -name '*.sh' -print0)
+          find scripts test -name '*.sh' -exec shellcheck {} +
+          bash scripts/metadata.sh
+          docker buildx bake --print >/dev/null
+      - name: Check shell formatting
+        run: >-
+          docker run --rm --mount "type=bind,source=$PWD,target=/src,readonly" -w /src
+          mvdan/shfmt:v3.14.1@sha256:8c06884a35683d8763fba6c0d9484d11a61a96da65f8d497d6f625825a6043f2 --diff .
+      - name: Check OpenBao authentication and secret handling
+        run: python3 test/openbao.py
+      - name: Check Dockerfile
+        run: >-
+          docker run --rm -i
+          hadolint/hadolint:v2.15.1@sha256:32dac94127fd60b7b7e3fbfc65e1383b9b5e25c9bfd7b8536de7a539fe68a12d
+          < git.Dockerfile
+      - name: Check workflows
+        run: >-
+          docker run --rm --mount "type=bind,source=$PWD,target=/src,readonly" -w /src
+          rhysd/actionlint:1.7.12@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 -color

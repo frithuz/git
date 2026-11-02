@@ -1,0 +1,29 @@
+This is a 3.0 (quilt) source package for the Frithuz Git client build.
+
+git_*.orig.tar.xz is the unmodified Git release archive authenticated before the
+binary build. orig-zlib-ng.tar.gz is the exact checksum-pinned upstream archive
+linked statically into Git. The precompiled Rust standard library comes from
+the pinned toolchain; its copyright and license notices are preserved under
+debian/upstream/rust/ without bundling the library's sources.
+The Debian archive includes the complete shared build recipe, version pins,
+producer identity, upstream source hashes, maintainer key and original Git
+signature. kernel.org's signature covers the UNCOMPRESSED Git tarball.
+
+To extract: dpkg-source -x git_VERSION-REVISION.dsc
+To rebuild in the pinned builder: dpkg-buildpackage -b -us -uc -d
+
+The build must have the Rust toolchain recorded in debian/build.env on PATH.
+The pinned rust image in debian/recipe/git.Dockerfile supplies it. Its tools are
+installed by rustup rather than dpkg, so -d skips dpkg's package-level dependency
+check in that image. Other build dependencies are listed in debian/control and
+installed by debian/recipe/scripts/build/dependencies.sh.
+
+debian/rules calls the same compiler and packaging scripts as the OCI build.
+It compiles extracted sources, uses a writable local zlib prefix, needs no root
+privileges, and fetches no source or crates during the rebuild. Network access is
+needed only to obtain the pinned builder and its build dependencies beforehand.
+
+The exact Rust compiler version is recorded in debian/build.env. Rebuilding
+rustc or its standard library is not part of this Git build. Dynamically linked
+Debian runtime libraries are supplied by APT; their source packages remain
+available from Debian's repositories.

@@ -1,0 +1,13 @@
+*
+!git.Dockerfile
+!docker-bake.hcl
+!LICENSE
+!README.md
+!Taskfile.yml
+!.dockerignore
+!scripts/
+!scripts/**
+!test/
+!test/**
+!debian/
+!debian/**
