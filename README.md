@@ -35,13 +35,13 @@ Outputs are ignored by Git:
 
 ```text
 dist/
-  deb/linux_amd64/git_2.56.0-1frithuz1_amd64.deb
-  deb/linux_arm64/git_2.56.0-1frithuz1_arm64.deb
+  deb/linux_amd64/git_2.56.1-1frithuz1_amd64.deb
+  deb/linux_arm64/git_2.56.1-1frithuz1_arm64.deb
   git.oci.tar
-  sources/linux_amd64/git_2.56.0-1frithuz1.dsc
-  sources/linux_amd64/git_2.56.0-1frithuz1.debian.tar.xz
-  sources/linux_amd64/git_2.56.0.orig.tar.xz
-  sources/linux_amd64/git_2.56.0.orig-zlib-ng.tar.gz
+  sources/linux_amd64/git_2.56.1-1frithuz1.dsc
+  sources/linux_amd64/git_2.56.1-1frithuz1.debian.tar.xz
+  sources/linux_amd64/git_2.56.1.orig.tar.xz
+  sources/linux_amd64/git_2.56.1.orig-zlib-ng.tar.gz
   sources/linux_arm64/... (the same source-package files)
   repository-test/...
 ```
@@ -88,7 +88,7 @@ Alternatively, download the `.dsc`, both `.orig` archives, and
 `.debian.tar.xz` from the release into one directory and extract:
 
 ```sh
-dpkg-source -x git_2.56.0-1frithuz1.dsc
+dpkg-source -x git_2.56.1-1frithuz1.dsc
 ```
 
 The extracted `debian/rules` invokes the same compiler flags and packaging
@@ -108,11 +108,11 @@ Debian's source repositories. This replaces the earlier custom source bundle.
 ## Install on Trixie
 
 ```sh
-sudo apt install ./dist/deb/linux_amd64/git_2.56.0-1frithuz1_amd64.deb
+sudo apt install ./dist/deb/linux_amd64/git_2.56.1-1frithuz1_amd64.deb
 ```
 
 Use the matching `arm64` package on ARM machines. Package version
-`1:2.56.0-1frithuz1` retains Debian Git's epoch so upgrades from the distribution
+`1:2.56.1-1frithuz1` retains Debian Git's epoch so upgrades from the distribution
 package sort correctly. This package replaces Debian's `git`; its reduced
 feature set is intentional. There is no install-time compilation.
 
@@ -133,7 +133,7 @@ Notices, source provenance, and the recipe are installed under
 ## Use in Dockerfiles
 
 ```dockerfile
-FROM ghcr.io/OWNER/git:2.56.0-1frithuz1@sha256:REPLACE_WITH_PUBLISHED_DIGEST AS git
+FROM ghcr.io/OWNER/git:2.56.1-1frithuz1@sha256:REPLACE_WITH_PUBLISHED_DIGEST AS git
 FROM debian:trixie-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates libcurl4t64 libpcre2-8-0 libssl3t64 openssh-client \
@@ -226,8 +226,8 @@ library, or toolchain rebuild of the same Git release, and tag the commit:
 
 ```sh
 bash scripts/metadata.sh
-git tag v2.56.0-1frithuz1
-git push origin v2.56.0-1frithuz1
+git tag v2.56.1-1frithuz1
+git push origin v2.56.1-1frithuz1
 ```
 
 The tag must match the Dockerfile's Git version and package revision. The workflow
